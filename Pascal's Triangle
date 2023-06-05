@@ -1,0 +1,76 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<vector<long long int>> printPascal(int n) {
+    // Create a vector of vectors to store Pascal's Triangle
+    vector<vector<long long int>> triangle;
+
+    // Special case for 0 rows
+    if (n == 0) {
+        return triangle;
+    }
+
+    // Initialize the first row with 1
+    triangle.push_back(vector<long long int>{1});
+
+    // Generate subsequent rows
+    for (int i = 1; i < n; i++) {
+        vector<long long int> row; // Create a new row
+
+        // First element of the row is always 1
+        row.push_back(1);
+
+        // Generate elements in between
+        for (int j = 1; j < i; j++) {
+            // Sum the two elements above to get the current element
+            long long int element = triangle[i - 1][j - 1] + triangle[i - 1][j];
+            row.push_back(element);
+        }
+
+        // Last element of the row is always 1
+        row.push_back(1);
+
+        // Add the row to the triangle
+        triangle.push_back(row);
+    }
+
+    return triangle;
+}
+
+// Helper function to print Pascal's Triangle
+void printPascalsTriangle(const vector<vector<long long int>>& triangle) {
+    int numRows = triangle.size();
+
+    for (int i = 0; i < numRows; i++) {
+        int numCols = triangle[i].size();
+
+        // Print leading spaces for visual alignment
+        for (int k = 0; k < numRows - i - 1; k++) {
+            cout << " ";
+        }
+
+        // Print the elements in the row
+        for (int j = 0; j < numCols; j++) {
+            cout << triangle[i][j] << " ";
+        }
+
+        cout << endl;
+    }
+}
+
+int main() {
+    int numRows;
+
+    cout << "Enter the number of rows for Pascal's Triangle: ";
+    cin >> numRows;
+
+    vector<vector<long long int>> triangle = printPascal(numRows);
+
+    cout << "Pascal's Triangle:" << endl;
+    printPascalsTriangle(triangle);
+
+    return 0;
+}
+
